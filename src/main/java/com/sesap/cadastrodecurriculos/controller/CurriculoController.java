@@ -5,7 +5,6 @@ import com.sesap.cadastrodecurriculos.entity.Curriculo;
 import com.sesap.cadastrodecurriculos.entity.Escolaridade;
 import com.sesap.cadastrodecurriculos.service.CurriculoService;
 
-import ch.qos.logback.classic.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotEmpty;
 

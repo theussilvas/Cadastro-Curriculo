@@ -39,6 +39,7 @@ public class EmailService {
             javaMailSender.send(message);
             System.out.println("Passei");
             logger.info("E-mail enviado com sucesso para: {}", curriculo.getEmail());
+            System.out.println(curriculo.getDataHora());
 
         } catch (MessagingException e) {
             logger.error("Erro ao enviar e-mail para {}: {}", curriculo.getEmail(), e.getMessage());

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Curriculo {
 
@@ -30,6 +32,8 @@ public class Curriculo {
     private Long arquivoTamanho;
 
     private String ip;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dataHora;
 
     public Long getId() {
