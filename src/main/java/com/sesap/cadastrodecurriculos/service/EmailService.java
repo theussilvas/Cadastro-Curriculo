@@ -3,6 +3,8 @@ package com.sesap.cadastrodecurriculos.service;
 import com.sesap.cadastrodecurriculos.entity.Curriculo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,31 +14,52 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class EmailService {
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void enviarEmail(Curriculo curriculo, MultipartFile arquivo){
+    public void enviarEmail(Curriculo curriculo, MultipartFile arquivo) {
+        if (arquivo == null || arquivo.isEmpty()) {
+            logger.error("O arquivo do currículo está ausente ou vazio.");
+            throw new IllegalArgumentException("Arquivo do currículo é obrigatório.");
+        }
+        
 
-        try{
+        try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+            helper.setFrom("antonina.friesen89@ethereal.email"); // Substitua pelo e-mail remetente configurado no servidor
             helper.setTo(curriculo.getEmail());
-            helper.setSubject("Novo cadastro de curriculo");
-            helper.setText(
-                    "Nome: " + curriculo.getNome() + "\n" +
-                    "Email: " + curriculo.getEmail() + "\n" +
-                    "Telefone: " + curriculo.getTelefone() + "\n" +
-                    "Cargo desejado " + curriculo.getCargoDesejado() + "\n" +
-                    "Escolaridade: " + curriculo.getEscolaridade() + "\n" +
-                    "Observações: " + curriculo.getObservacoes()
-            );
+            helper.setSubject("Novo cadastro de currículo");
+            helper.setText(gerarCorpoEmail(curriculo));
             helper.addAttachment(arquivo.getOriginalFilename(), arquivo);
+            
             javaMailSender.send(message);
-
+            System.out.println("Passei");
+            logger.info("E-mail enviado com sucesso para: {}", curriculo.getEmail());
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            logger.error("Erro ao enviar e-mail para {}: {}", curriculo.getEmail(), e.getMessage());
+            throw new RuntimeException("Erro ao enviar o e-mail", e);
         }
+    }
+
+    private String gerarCorpoEmail(Curriculo curriculo) {
+        return String.format(
+                "Nome: %s\n" +
+                "Email: %s\n" +
+                "Telefone: %s\n" +
+                "Cargo desejado: %s\n" +
+                "Escolaridade: %s\n" +
+                "Observações: %s",
+                curriculo.getNome(),
+                curriculo.getEmail(),
+                curriculo.getTelefone(),
+                curriculo.getCargoDesejado(),
+                curriculo.getEscolaridade(),
+                curriculo.getObservacoes() != null ? curriculo.getObservacoes() : "Nenhuma observação adicionada"
+        );
     }
 }

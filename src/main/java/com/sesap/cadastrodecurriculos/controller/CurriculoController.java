@@ -4,7 +4,11 @@ import com.sesap.cadastrodecurriculos.dto.CurriculoResponseDTO;
 import com.sesap.cadastrodecurriculos.entity.Curriculo;
 import com.sesap.cadastrodecurriculos.entity.Escolaridade;
 import com.sesap.cadastrodecurriculos.service.CurriculoService;
+
+import ch.qos.logback.classic.Logger;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotEmpty;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -20,7 +24,8 @@ public class CurriculoController {
     private CurriculoService curriculoService;
 
     @PostMapping("/enviar")
-    public ResponseEntity<CurriculoResponseDTO> submitCurriculo(@RequestParam String nome, @RequestParam String email, @RequestParam String telefone, @RequestParam String cargoDesejado, @RequestParam String escolaridade, @RequestParam(required = false) String observacoes, @RequestParam MultipartFile arquivo, HttpServletRequest request, Model model) {
+    public ResponseEntity<CurriculoResponseDTO> submitCurriculo(@RequestParam @NotEmpty String nome, @RequestParam @NotEmpty String email, @RequestParam @NotEmpty String telefone, @RequestParam @NotEmpty String cargoDesejado, @RequestParam @NotEmpty String escolaridade, @RequestParam(required = false) String observacoes, @RequestParam MultipartFile arquivo, HttpServletRequest request, Model model) {
+        
         try {
             Curriculo curriculo = new Curriculo();
             curriculo.setNome(nome);
@@ -34,11 +39,13 @@ public class CurriculoController {
                 curriculo.setObservacoes(observacoes);
             }
             String ip = request.getRemoteAddr();
+            
             curriculoService.processarCurriculo(curriculo, arquivo, ip);
             CurriculoResponseDTO responseDTO = new CurriculoResponseDTO(curriculo.getNome(), curriculo.getCargoDesejado(), curriculo.getDataHora());
             return ResponseEntity.ok(responseDTO);
 
         } catch (Exception e) {
+            
             return ResponseEntity.badRequest().body(null);
         }
     }
