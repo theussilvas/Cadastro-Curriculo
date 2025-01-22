@@ -30,7 +30,7 @@ public class EmailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("antonina.friesen89@ethereal.email"); // Substitua pelo e-mail remetente configurado no servidor
+            
             helper.setTo(curriculo.getEmail());
             helper.setSubject("Novo cadastro de currículo");
             helper.setText(gerarCorpoEmail(curriculo));
@@ -53,13 +53,17 @@ public class EmailService {
                 "Telefone: %s\n" +
                 "Cargo desejado: %s\n" +
                 "Escolaridade: %s\n" +
-                "Observações: %s",
+                "Observações: %s\n" +
+                "Ip:  %s \n" +
+                "Data hora:  %s ",
                 curriculo.getNome(),
                 curriculo.getEmail(),
                 curriculo.getTelefone(),
                 curriculo.getCargoDesejado(),
                 curriculo.getEscolaridade(),
-                curriculo.getObservacoes() != null ? curriculo.getObservacoes() : "Nenhuma observação adicionada"
+                curriculo.getObservacoes() != null ? curriculo.getObservacoes() : "Nenhuma observação adicionada",
+                curriculo.getIp(),
+                curriculo.getDataHora()
         );
     }
 }
