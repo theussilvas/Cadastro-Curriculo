@@ -37,7 +37,6 @@ public class EmailService {
             helper.addAttachment(arquivo.getOriginalFilename(), arquivo);
             
             javaMailSender.send(message);
-            System.out.println("Passei");
             logger.info("E-mail enviado com sucesso para: {}", curriculo.getEmail());
             System.out.println(curriculo.getDataHora());
 
