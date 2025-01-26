@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 //Get escolaridades
 $(document).ready(function () {
-    const apiUrl = "http://localhost:8080/escolaridades";
+    const apiUrl = "http://0.0.0.0:8080/escolaridades";
 
     $.ajax({
         url: apiUrl,
