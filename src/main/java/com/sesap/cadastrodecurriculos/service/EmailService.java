@@ -3,6 +3,9 @@ package com.sesap.cadastrodecurriculos.service;
 import com.sesap.cadastrodecurriculos.entity.Curriculo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
+import java.time.format.DateTimeFormatter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,10 @@ public class EmailService {
     }
 
     private String gerarCorpoEmail(Curriculo curriculo) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String dataHoraFormatada = curriculo.getDataHora().format(formatter);
+
         return String.format(
                 "Nome: %s\n" +
                 "Email: %s\n" +
@@ -63,7 +70,7 @@ public class EmailService {
                 curriculo.getEscolaridade(),
                 curriculo.getObservacoes() != null ? curriculo.getObservacoes() : "Nenhuma observação adicionada",
                 curriculo.getIp(),
-                curriculo.getDataHora()
+                dataHoraFormatada
         );
     }
 }
