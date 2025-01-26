@@ -57,7 +57,7 @@ public class CurriculoService {
     }
 
     private Curriculo preencherInformacoes(CurriculoDTO curriculo, MultipartFile arquivo, String ip) throws IOException {
-        byte[] arquivoBytes = arquivo.getBytes();
+
 
         Curriculo curriculo1 = new Curriculo();
         curriculo1.setNome(curriculo.getNome());
@@ -69,6 +69,7 @@ public class CurriculoService {
         curriculo1.setEscolaridade(escolaridade);
 
         curriculo1.setArquivoNome(arquivo.getOriginalFilename());
+        curriculo1.setArquivo(arquivo.getBytes());
         curriculo1.setArquivoTipo(arquivo.getContentType());
         curriculo1.setArquivoTamanho(arquivo.getSize());
         curriculo1.setIp(ip);
