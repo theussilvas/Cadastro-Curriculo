@@ -10,20 +10,31 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/postgres_data
+    networks:
+      - app-network
 
   backend:
     build:
-      context: /backend
+      context: ./backend
       dockerfile: Dockerfile
     container_name: springboot
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/curriculos_db
-      - SPRING_DATASOURCE_USERNAME:usuario
-      - SPRING_DATASOURCE_PASSWORD:usuario
+      - POSTGRES_USER=usuario
+      - POSTGRES_PASSWORD=usuario
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/curriculos_db
+      - SPRING_DATASOURCE_USERNAME=usuario
+      - SPRING_DATASOURCE_PASSWORD=usuario
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - db
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
