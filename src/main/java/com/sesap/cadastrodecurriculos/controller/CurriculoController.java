@@ -3,12 +3,10 @@ package com.sesap.cadastrodecurriculos.controller;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.sesap.cadastrodecurriculos.dto.CurriculoDTO;
 import com.sesap.cadastrodecurriculos.dto.CurriculoResponseDTO;
-import com.sesap.cadastrodecurriculos.entity.Curriculo;
-import com.sesap.cadastrodecurriculos.entity.Escolaridade;
+
 import com.sesap.cadastrodecurriculos.service.CurriculoService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class CurriculoController {
     private CurriculoService curriculoService;
 
     @PostMapping("/enviar")
-    public ResponseEntity<CurriculoResponseDTO> submitCurriculo(@RequestPart("dados") CurriculoDTO curriculo, @RequestPart("arquivo") MultipartFile arquivo, HttpServletRequest request, Model model) throws IOException, NumberParseException {
+    public ResponseEntity<CurriculoResponseDTO> submitCurriculo(@ModelAttribute CurriculoDTO curriculo, @RequestPart("arquivo") MultipartFile arquivo, HttpServletRequest request, Model model) throws IOException, NumberParseException {
             String ip = request.getRemoteAddr();
             
             var response = curriculoService.processarCurriculo(curriculo, arquivo, ip);

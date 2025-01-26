@@ -4,6 +4,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.sesap.cadastrodecurriculos.dto.CurriculoDTO;
 import com.sesap.cadastrodecurriculos.entity.Curriculo;
+import com.sesap.cadastrodecurriculos.entity.Escolaridade;
 import com.sesap.cadastrodecurriculos.exceptions.*;
 import com.sesap.cadastrodecurriculos.repository.CurriculoRepository;
 import io.micrometer.common.util.StringUtils;
@@ -61,8 +62,11 @@ public class CurriculoService {
         Curriculo curriculo1 = new Curriculo();
         curriculo1.setNome(curriculo.getNome());
         curriculo1.setEmail(curriculo.getEmail());
+        curriculo1.setTelefone(curriculo.getTelefone());
         curriculo1.setCargoDesejado(curriculo.getCargoDesejado());
         curriculo1.setObservacoes(curriculo.getObservacoes());
+        Escolaridade escolaridade = Escolaridade.valueOf(curriculo.getEscolaridade());
+        curriculo1.setEscolaridade(escolaridade);
 
         curriculo1.setArquivoNome(arquivo.getOriginalFilename());
         curriculo1.setArquivoTipo(arquivo.getContentType());
@@ -90,6 +94,10 @@ public class CurriculoService {
         }
         if(StringUtils.isBlank(curriculo.getEscolaridade())){
             throw new EscolaridadeNaoEncontradaException();
+        }
+
+        if(StringUtils.isBlank(curriculo.getObservacoes())){
+            curriculo.setObservacoes("Sem observações adicionadas");
         }
 
         if(curriculo.getTelefone().length()!= 11){

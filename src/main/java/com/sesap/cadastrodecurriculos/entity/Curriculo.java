@@ -1,10 +1,11 @@
 package com.sesap.cadastrodecurriculos.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 public class Curriculo {
@@ -33,7 +34,7 @@ public class Curriculo {
 
     private String ip;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd/MM/yyyy  HH:mm:ss")
     private LocalDateTime dataHora;
 
     public Long getId() {

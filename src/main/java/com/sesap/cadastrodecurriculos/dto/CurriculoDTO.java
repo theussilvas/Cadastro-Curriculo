@@ -1,5 +1,6 @@
 package com.sesap.cadastrodecurriculos.dto;
 
+
 public class CurriculoDTO {
 
     private String nome;
@@ -8,6 +9,7 @@ public class CurriculoDTO {
     private String cargoDesejado;
     private String observacoes;
     private String escolaridade;
+
 
     public String getEmail() {
         return email;

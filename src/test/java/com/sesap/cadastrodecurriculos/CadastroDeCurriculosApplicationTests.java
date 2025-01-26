@@ -2,6 +2,7 @@ package com.sesap.cadastrodecurriculos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sesap.cadastrodecurriculos.dto.CurriculoDTO;
+import com.sesap.cadastrodecurriculos.entity.Escolaridade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,398 +25,198 @@ class CadastroDeCurriculosApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+    
+	private MockMultipartFile criarArquivo(String nome, String tipo, byte[] conteudo) {
+        return new MockMultipartFile("arquivo", nome, tipo, conteudo);
+    }
 
 
-	//Teste geral
-	/*
-	@Test
-	public void testarEnvio() throws Exception{
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("12345678");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
 
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-            "dados",
-            "",
-            MediaType.APPLICATION_JSON_VALUE,
-            objectMapper.writeValueAsBytes(request)
-    );
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-				.file(dados)
-				.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.nome").value("João"))
-				.andExpect(jsonPath("$.cargoDesejado").value("telefonista"));
-	}
-*/
 	//Classe de equivalência (Campos obrigatórios)
 	@Test
-	public void nomeVazio() throws Exception{
+    public void nomeVazio() throws Exception {
+        MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("12345678");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isUnprocessableEntity())
-				.andExpect(jsonPath("$.message").value("O nome é obrigatório"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "12345678")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message").value("O nome é obrigatório"));
+    }
 
 	@Test
-	public void cargoVazio() throws Exception{
+    public void cargoDesejadoVazio() throws Exception {
+        MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("12345678");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isUnprocessableEntity())
-				.andExpect(jsonPath("$.message").value("O cargo desejado é obrigatório"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "12345678")
+                        .param("escolaridade", "Superior")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message").value("O cargo desejado é obrigatório"));
+    }
 
 	@Test
-	public void emailVazio() throws Exception{
+    public void emailVazio() throws Exception {
+        MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setTelefone("12345678");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isUnprocessableEntity())
-				.andExpect(jsonPath("$.message").value("O email é obrigatório"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("telefone", "12345678")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message").value("O email é obrigatório"));
+    }
 
 	@Test
 	public void escolaridadeVazia() throws Exception{
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("12345678");
-		request.setCargoDesejado("telefonista");
-		request.setObservacoes("oii");
+		MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isUnprocessableEntity())
-				.andExpect(jsonPath("$.message").value("Escolaridade inválida"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+						.param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "12345678")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message").value("Escolaridade inválida"));
+    }
 
 	@Test
-	public void telefoneVazio() throws Exception{
+	public void telefoneVazio() throws Exception {
+        MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isUnprocessableEntity())
-				.andExpect(jsonPath("$.message").value("O telefone é obrigatório"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message").value("O telefone é obrigatório"));
+    }
 
 	@Test
 	public void telefoneDigitosAcima() throws Exception{
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("123456789012");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
+		MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isLengthRequired())
-				.andExpect(jsonPath("$.message").value("O número de telefone deve conter 11 dígitos"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+						.param("telefone","849990301675")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isLengthRequired())
+                .andExpect(jsonPath("$.message").value("O número de telefone deve conter 11 dígitos"));
+    }
 
 	@Test
 	public void telefoneDigitosAbaixo() throws Exception{
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("1234567890");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
+			MockMultipartFile arquivo = criarArquivo("curriculo.pdf", "application/pdf", "conteudo do arquivo".getBytes());
 
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.pdf",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isLengthRequired())
-				.andExpect(jsonPath("$.message").value("O número de telefone deve conter 11 dígitos"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+						.param("telefone","8499903016")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isLengthRequired())
+                .andExpect(jsonPath("$.message").value("O número de telefone deve conter 11 dígitos"));
+    }
 
 
 	@Test
-	public void tipoInvalidoArquivo() throws Exception{
+    public void tipoArquivoInvalido() throws Exception {
+        MockMultipartFile arquivo = criarArquivo("curriculo.txt", "text/plain", "conteudo do arquivo".getBytes());
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("12345678");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.jpg",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isUnsupportedMediaType())
-				.andExpect(jsonPath("$.message").value("Extensão errada, somente são aceitos .pdf, .doc e .docx"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "12345678")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isUnsupportedMediaType())
+                .andExpect(jsonPath("$.message").value("Extensão errada, somente são aceitos .pdf, .doc e .docx"));
+    }
 
 	//Validar arquivos .doc e .docx
 	@Test
 	public void testarEnvioDocx() throws Exception{
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("84994149177");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
+		MockMultipartFile arquivo = criarArquivo("curriculo.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "conteudo do arquivo".getBytes());
 
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.docx",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.nome").value("João"))
-				.andExpect(jsonPath("$.cargoDesejado").value("telefonista"));
-	}
-
-	@Test
-	public void testarEnvioDoc() throws Exception{
-
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("84994149177");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.doc",
-				"application/pdf",
-				"conteudo do arquivo em pdf".getBytes()
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
-		);
-
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.nome").value("João"))
-				.andExpect(jsonPath("$.cargoDesejado").value("telefonista"));
-	}
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "84994149173")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "SUPERIOR")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("João"));
+    }
 
 	@Test
 	public void testarLimiteMaximo() throws Exception{
 
-		CurriculoDTO request = new CurriculoDTO();
-		request.setNome("João");
-		request.setEmail("Joao@example.com");
-		request.setTelefone("12345678");
-		request.setCargoDesejado("telefonista");
-		request.setEscolaridade("Superior");
-		request.setObservacoes("oii");
-
-		byte[] tamanhoArquivo = new byte[2 * 1024 * 1024];// 2MB
+		byte[] tamanhoArquivo = new byte[2*1024*1024];
 
 		MockMultipartFile arquivo = new MockMultipartFile(
-				"arquivo",
-				"curriculo.doc",
-				"application/pdf",
-				tamanhoArquivo
-
-		);
-		MockMultipartFile dados = new MockMultipartFile(
-				"dados",
-				"",
-				MediaType.APPLICATION_JSON_VALUE,
-				objectMapper.writeValueAsBytes(request)
+			"arquivo",
+			"curriculo.pdf",
+			"application.pdf",
+			tamanhoArquivo
 		);
 
-		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar").file(arquivo)
-						.file(dados)
-						.contentType(MediaType.MULTIPART_FORM_DATA))
-				.andExpect(status().isPayloadTooLarge()).andExpect(jsonPath("$.message").value("O tamanho máximo para o arquivo é 1Mb"));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "12345678")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "Superior")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isPayloadTooLarge())
+                .andExpect(jsonPath("$.message").value("O tamanho máximo para o arquivo é 1Mb"));
+    }
 
-	}
+	@Test
+	public void testarEnvioDoc() throws Exception{
 
+		MockMultipartFile arquivo = criarArquivo("curriculo.doc", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "conteudo do arquivo".getBytes());
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/curriculos/enviar")
+                        .file(arquivo)
+                        .param("nome", "João")
+                        .param("email", "Joao@example.com")
+                        .param("telefone", "84994149173")
+                        .param("cargoDesejado", "Telefonista")
+                        .param("escolaridade", "SUPERIOR")
+                        .param("observacoes", "oii"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("João"));
+    }
 }
