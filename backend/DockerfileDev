@@ -1,0 +1,17 @@
+# Fase de Build: Instalação das dependências e construção da aplicação
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+# Defina o diretório de trabalho
+WORKDIR /app
+
+# Copie os arquivos do projeto para o contêiner
+COPY . /app
+
+# Instale dependências do Maven sem rodar testes (pode ser alterado conforme necessário)
+RUN mvn clean install -DskipTests
+
+# Exponha a porta 8080 (padrão para Spring Boot)
+EXPOSE 8080
+
+# Comando para rodar a aplicação Spring Boot com Spring Boot DevTools ativado
+CMD ["mvn", "spring-boot:run"]

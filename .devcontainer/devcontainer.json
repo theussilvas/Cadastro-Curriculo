@@ -1,6 +1,6 @@
 {
   "name": "devcontainer-integrado",
-  "dockerComposeFile": "../compose.yml",
+  "dockerComposeFile": "../compose-dev.yml",
   "service": "backend",
   "workspaceFolder": "/workspace/backend",
   "customizations": {
@@ -14,7 +14,6 @@
         "esbenp.prettier-vscode"
       ]
     }
-  },
-  "postCreateCommand": "mvn install",
-  "remoteUser": "root"
+  }
+ 
 }
