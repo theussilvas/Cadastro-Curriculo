@@ -1,0 +1,20 @@
+{
+  "name": "devcontainer-integrado",
+  "dockerComposeFile": "../compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspace/backend",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "mvn install",
+  "remoteUser": "root"
+}
