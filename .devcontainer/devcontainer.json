@@ -3,6 +3,7 @@
   "dockerComposeFile": "../compose-dev.yml",
   "service": "backend",
   "workspaceFolder": "/workspace/backend",
+  "forwardPorts": [3001],
   "customizations": {
     "vscode": {
       "settings": {

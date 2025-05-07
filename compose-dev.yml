@@ -35,21 +35,7 @@ services:
     tty: true 
     networks:
       - app-network
-  
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: front
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-     
       
-   
-
-
 
 volumes:
   postgres_data:
