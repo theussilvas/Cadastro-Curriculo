@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.sesap.cadastrodecurriculos.CadastroDeCurriculosApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 46.85 s -- in com.sesap.cadastrodecurriculos.CadastroDeCurriculosApplicationTests
