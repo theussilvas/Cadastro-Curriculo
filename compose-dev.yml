@@ -31,7 +31,7 @@ services:
       - db
     volumes:
       - ./backend:/workspace/backend 
-    command: mvn spring-boot:run  # Comando para rodar a aplicação com Maven
+    command: mvn spring-boot:run  
     tty: true 
     networks:
       - app-network
