@@ -17,7 +17,7 @@ services:
     build:
       context: ./backend
       dockerfile: DockerfileDev
-    container_name: springboot
+    container_name: java-dev
     ports:
       - "8080:8080"
     environment:
@@ -31,6 +31,8 @@ services:
       - db
     volumes:
       - ./backend:/workspace/backend 
+    command: mvn spring-boot:run  
+    tty: true 
     networks:
       - app-network
   
