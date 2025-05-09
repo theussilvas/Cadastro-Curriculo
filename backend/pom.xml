@@ -84,6 +84,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version> <!-- ou a versão mais atual -->
+				<configuration>
+					<source>17</source> <!-- ou sua versão do Java -->
+					<target>17</target>
+					<compilerArgs>
+					<arg>-Xlint:deprecation</arg>
+					<arg>-Werror</arg>
+					</compilerArgs>
+				</configuration>
+    </plugin>
 		</plugins>
 	</build>
 

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 
+
 @Service
 public class CurriculoService {
 
