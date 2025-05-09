@@ -29,7 +29,8 @@ public class CurriculoController {
             String ip = request.getRemoteAddr();
             
             var response = curriculoService.processarCurriculo(curriculo, arquivo, ip);
-            CurriculoResponseDTO responseDTO = new CurriculoResponseDTO(response.getNome(), response.getCargoDesejado(), response.getDataHora());
+            CurriculoResponseDTO responseDTO = new CurriculoResponseDTO(response.getNome(), response.getCargoDesejado(), 
+            response.getDataHora());
             return ResponseEntity.ok(responseDTO);
     }
 

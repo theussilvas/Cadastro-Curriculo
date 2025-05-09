@@ -14,6 +14,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+
 @Service
 public class EmailService {
 
@@ -50,9 +52,12 @@ public class EmailService {
     }
 
     private String gerarCorpoEmail(Curriculo curriculo) {
+        
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        String dataHoraFormatada = curriculo.getDataHora().format(formatter);
+        Date data = new Date();
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        //String dataHoraFormatada = curriculo.getDataHora().format(formatter);
+        
 
         return String.format(
                 "Nome: %s\n" +
@@ -70,7 +75,8 @@ public class EmailService {
                 curriculo.getEscolaridade(),
                 curriculo.getObservacoes() != null ? curriculo.getObservacoes() : "Nenhuma observação adicionada",
                 curriculo.getIp(),
-                dataHoraFormatada
+                data.getDate()
+                //dataHoraFormatada
         );
     }
 }
