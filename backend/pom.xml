@@ -90,13 +90,29 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version> <!-- ou a versão mais atual -->
 				<configuration>
-					<source>17</source> <!-- ou sua versão do Java -->
-					<target>17</target>
+					<source>21</source> <!-- ou sua versão do Java -->
+					<target>21</target>
 					<compilerArgs>
 					<arg>-Xlint:deprecation</arg>
 					<arg>-Werror</arg>
 					</compilerArgs>
 				</configuration>
+   		 </plugin>
+
+		 <plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>8.4.0</version>
+				 <configuration>
+                  <failBuildOnCVSS>7</failBuildOnCVSS>
+              </configuration>
+				<executions>
+					<execution>
+					<goals>
+						<goal>check</goal>
+					</goals>
+					</execution>
+				</executions>
     </plugin>
 		</plugins>
 	</build>
