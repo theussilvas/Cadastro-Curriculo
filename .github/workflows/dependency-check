@@ -1,0 +1,33 @@
+name: OWASP Dependency Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 3 * * 1'  # Roda toda segunda-feira às 3h UTC
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Instalar Maven
+        run: sudo apt-get install -y maven
+
+      - name: Rodar OWASP Dependency Check
+        working-directory: /backend
+        run: |
+          mvn verify
+
+   
