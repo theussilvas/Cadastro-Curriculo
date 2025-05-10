@@ -13,7 +13,7 @@ services:
     networks:
       - app-network
 
-  backend:
+  app:
     build:
       context: ./backend
       dockerfile: DockerfileDev
@@ -30,9 +30,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./backend:/workspace/backend 
-    command: mvn spring-boot:run  
-    tty: true 
+      - ./backend:/workspace/backend  
     networks:
       - app-network
       
