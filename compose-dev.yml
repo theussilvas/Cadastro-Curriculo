@@ -12,25 +12,8 @@ services:
       - postgres_data:/var/lib/postgresql/postgres_data
     networks:
       - app-network
+      
 
-  app:
-    build:
-      context: ./backend
-      dockerfile: DockerfileDev
-    container_name: java-dev
-    ports:
-      - "8080:8080"
-    environment:
-      - POSTGRES_USER=usuario
-      - POSTGRES_PASSWORD=usuario
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/curriculos_db
-      - SPRING_DATASOURCE_USERNAME=usuario
-      - SPRING_DATASOURCE_PASSWORD=usuario
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on:
-      - db
-    volumes:
-      - ./backend:/workspace/backend  
     networks:
       - app-network
       
