@@ -99,7 +99,52 @@
 				</configuration>
    		 </plugin>
 
-		 <!-- <plugin>
+		 
+
+	<!-- <plugin>
+                <groupId>com.buschmais.jqassistant</groupId>
+                <artifactId>jqassistant-maven-plugin</artifactId>
+                <version>2.7.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>scan</goal>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
+		</plugins>
+	</build>
+
+
+	<profiles>
+		<profile>
+			<id>jqassistant</id>
+			<build>
+				<plugins>
+					<plugin>
+                <groupId>com.buschmais.jqassistant</groupId>
+                <artifactId>jqassistant-maven-plugin</artifactId>
+                <version>2.7.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>scan</goal>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>dependency-check</id>
+			<build>
+				<plugins>
+					<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>12.1.2</version>
@@ -113,22 +158,13 @@
 					</goals>
 					</execution>
 				</executions>
-    </plugin> -->
+    	</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
-	<plugin>
-                <groupId>com.buschmais.jqassistant</groupId>
-                <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>2.7.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>scan</goal>
-                            <goal>analyze</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-		</plugins>
-	</build>
+
+	
 
 </project>
