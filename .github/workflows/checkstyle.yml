@@ -29,7 +29,7 @@ jobs:
       - name: ChekStyle
         working-directory: ./backend
         run: |
-          mvn jqassistant:scan jqassistant:analyze
+          mvn clean verify -Pjqassistant
       
       - name: Upload CheckStyle Artifacts
         uses: actions/upload-artifact@v4.6.2
