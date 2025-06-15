@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v2.2"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.2 https://jqassistant.github.io/jqassistant/current/schema/jqassistant-rule-v2.2.xsd">
+
+    <group id="default">
+        <includeConstraint refId="my-rules:*"/>
+    </group>
+
+    <constraint id="my-rules:TestClassWithoutTestSuffix">
+        <requiresConcept refId="java:TestMethod"/>
+        <description>A class declaring test methods must have the name suffix "Test".</description>
+        <cypher><![CDATA[
+            MATCH
+              (testClass:Java:Type)-[:DECLARES]->(testMethod:Test:Method)
+            WHERE NOT
+              testClass.name ENDS WITH "Test"
+            RETURN DISTINCT
+              testClass AS TestClassWithoutTestSuffix
+        ]]></cypher>
+    </constraint>
+
+</jqassistant-rules>

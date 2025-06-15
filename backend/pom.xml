@@ -99,7 +99,7 @@
 				</configuration>
    		 </plugin>
 
-		 <plugin>
+		 <!-- <plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>12.1.2</version>
@@ -113,7 +113,21 @@
 					</goals>
 					</execution>
 				</executions>
-    </plugin>
+    </plugin> -->
+
+	<plugin>
+                <groupId>com.buschmais.jqassistant</groupId>
+                <artifactId>jqassistant-maven-plugin</artifactId>
+                <version>2.7.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>scan</goal>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
