@@ -32,6 +32,7 @@ jobs:
           mvn clean verify -Pjqassistant
       
       - name: Upload CheckStyle Artifacts
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: Upload CheckStyle Artifact
