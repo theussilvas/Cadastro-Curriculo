@@ -36,6 +36,20 @@ jobs:
       - name: Instalar Maven
         run: sudo apt-get install -y maven
 
+      - name: Rodar ChekStyle Plugin
+        working-directory: ./backend
+        run: |
+          mvn clean verify -Pjqassistant
+
+      - name: Upload CheckStyle Artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Upload CheckStyle Artifact
+          path: |
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/jqassistant/jqassistant-report.xml
+
+
       - name: Rodar OWASP Dependency Check
         working-directory: ./backend
         run: |
@@ -43,7 +57,7 @@ jobs:
             -Dnvd.api.key=$NVD_API_KEY \
             -Dnvd.api.endpoint=$NVD_HOST
 
-      - name:  Upload Artifacts
+      - name:  Upload Artifacts OWASP
         if: ${{ always() }}
         uses: actions/upload-artifact@v4.6.2
         with:
