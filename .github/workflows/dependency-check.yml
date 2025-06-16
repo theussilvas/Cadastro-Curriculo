@@ -2,9 +2,7 @@ name: OWASP Dependency Check
 
 on:
   push:
-    
   pull_request:
-    
   schedule:
     - cron: '0 3 * * 1'  # Roda toda segunda-feira às 3h UTC
 
@@ -13,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-      NVD_HOST: ${{ secrets.NVD_HOST}}
+      NVD_HOST: ${{ secrets.NVD_HOST }}
 
     steps:
       - name: Checkout
@@ -27,6 +25,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Cache OWASP Dependency-Check Data
+        uses: actions/cache@v4
+        with:
+          path: ./backend/owasp-data
+          key: ${{ runner.os }}-owasp-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-owasp-
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -36,7 +42,7 @@ jobs:
       - name: Instalar Maven
         run: sudo apt-get install -y maven
 
-      - name: Rodar ChekStyle Plugin
+      - name: Rodar CheckStyle Plugin
         working-directory: ./backend
         run: |
           mvn clean verify -Pjqassistant
@@ -49,20 +55,18 @@ jobs:
           path: |
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/jqassistant/jqassistant-report.xml
 
-
       - name: Rodar OWASP Dependency Check
         working-directory: ./backend
         run: |
           mvn clean verify -Pdependency-check \
             -Dnvd.api.key=$NVD_API_KEY \
-            -Dnvd.api.endpoint=$NVD_HOST
+            -Dnvd.api.endpoint=$NVD_HOST \
+            -Ddata.directory=./owasp-data
 
-      - name:  Upload Artifacts OWASP
+      - name: Upload Artifacts OWASP
         if: ${{ always() }}
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: Uplod artifact
+          name: Upload OWASP Artifact
           path: |
-             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/dependency-check-report.html
-
-   
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/dependency-check-report.html
