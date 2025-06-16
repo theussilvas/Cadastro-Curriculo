@@ -88,7 +88,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -124,6 +123,12 @@
 					<configuration>
 						<failBuildOnCVSS>7</failBuildOnCVSS>
 					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>3.23.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -179,6 +184,29 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+
+		<profile>
+			<id>duplicated-check</id>
+				<build>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-pmd-plugin</artifactId>
+							<configuration>
+								<minimumTokens>50</minimumTokens>
+								<printFailingErrors>true</printFailingErrors>
+							</configuration>
+							<executions>
+								<execution>
+									<goals>
+										<goal>cpd-check</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</build>
 		</profile>
 	</profiles>
 </project>
