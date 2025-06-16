@@ -1,0 +1,30 @@
+FROM eclipse-temurin:21-jdk
+
+# Variável com a versão do Maven
+ENV MAVEN_VERSION=3.9.6
+ENV MAVEN_HOME=/opt/maven
+ENV PATH=${MAVEN_HOME}/bin:${PATH}
+
+# Instalar dependências básicas
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    unzip \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+# Ajustar timezone para Brasil (opcional)
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Baixar e instalar o Maven manualmente (sem SDKMAN)
+RUN wget https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && tar -xvzf apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && mv apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} \
+    && rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
+
+# Confirmar as versões instaladas (debug)
+RUN java -version && mvn -version
+
+WORKDIR /workspace
