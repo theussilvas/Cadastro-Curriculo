@@ -60,11 +60,11 @@ jobs:
         run: |
           mvn clean verify -Pduplicated-check
 
-      - name: Upload PMD relatorio
+      - name: Upload PMD Relatorio
         if: ${{ always() }}
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: Upload CheckStyle Artifact
+          name: Upload PMD Relatorio
           path: |
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/cpd.xml
 
