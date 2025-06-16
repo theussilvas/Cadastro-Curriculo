@@ -20,4 +20,49 @@
         ]]></cypher>
     </constraint>
 
+
+     <constraint id="my-rules:ClassNameUpperCase">
+            <description>Nome de classes deve iniciar com letra maiúscula</description>
+            <cypher><![CDATA[
+                MATCH (t:Type:Class)
+                WHERE NOT t.name =~ '^[A-Z].*'
+                RETURN t AS InvalidClassName
+            ]]></cypher>
+        </constraint>
+
+
+
+     <!-- Métodos devem estar em camelCase iniciando com minúscula -->
+        <constraint id="my-rules:MethodCamelCase">
+            <description>Métodos devem começar com letra minúscula (exceto em enums)</description>
+            <cypher><![CDATA[
+                MATCH (m:Method)-[:DECLARES]->(t:Type)
+                WHERE NOT m.name =~ '^[a-z][a-zA-Z0-9]*'
+                AND NOT m.name IN ['<init>', '<clinit>']
+                AND NOT (t:Enum)
+                RETURN m AS InvalidMethodName
+            ]]></cypher>
+        </constraint>
+
+        <!-- Campos devem ser private -->
+        <constraint id="my-rules:PrivateFields">
+            <description>Campos devem ser private</description>
+            <cypher><![CDATA[
+                MATCH (f:Field)
+                WHERE NOT 'private' IN f.modifiers
+                RETURN f AS NonPrivateField
+            ]]></cypher>
+        </constraint>
+
+        <!-- Constantes devem estar em UPPER_CASE -->
+        <constraint id="my-rules:ConstantUpperCase">
+            <description>Constantes static final devem estar em UPPER_CASE</description>
+            <cypher><![CDATA[
+                MATCH (f:Field)
+                WHERE 'static' IN f.modifiers AND 'final' IN f.modifiers
+                  AND NOT f.name =~ '^[A-Z0-9_]+$'
+                RETURN f AS InvalidConstantName
+            ]]></cypher>
+        </constraint>
+
 </jqassistant-rules>
