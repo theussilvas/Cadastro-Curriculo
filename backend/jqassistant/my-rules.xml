@@ -34,11 +34,12 @@
 
      <!-- Métodos devem estar em camelCase iniciando com minúscula -->
         <constraint id="my-rules:MethodCamelCase">
-            <description>Métodos devem começar com letra minúscula</description>
+            <description>Métodos devem começar com letra minúscula (exceto em enums)</description>
             <cypher><![CDATA[
-                MATCH (m:Method)
+                MATCH (m:Method)-[:DECLARES]->(t:Type)
                 WHERE NOT m.name =~ '^[a-z][a-zA-Z0-9]*'
-                  AND NOT m.name IN ['<init>', '<clinit>']
+                AND NOT m.name IN ['<init>', '<clinit>']
+                AND NOT (t:Enum)
                 RETURN m AS InvalidMethodName
             ]]></cypher>
         </constraint>
