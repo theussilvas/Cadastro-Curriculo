@@ -11,6 +11,9 @@ on:
 jobs:
   dependency-check:
     runs-on: ubuntu-latest
+    env:
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      NVD_HOST: ${{ secrets.NVD_HOST}}
 
     steps:
       - name: Checkout
@@ -36,7 +39,9 @@ jobs:
       - name: Rodar OWASP Dependency Check
         working-directory: ./backend
         run: |
-          mvn clean verify -Pdependency-check
+          mvn clean verify -Pdependency-check \
+            -Dnvd.api.key=$NVD_API_KEY \
+            -Dnvd.api.endpoint=$NVD_HOST
 
       - name:  Upload Artifacts
         if: ${{ always() }}
