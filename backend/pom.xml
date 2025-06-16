@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
+
 	<groupId>com.sesap.cadastrodecurriculos</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>Matheus</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CadastroDeCurriculos</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	<description>Matheus project for Spring Boot</description>
+
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+
+	<!-- Dependency Management -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.googlecode.libphonenumber</groupId>
+				<artifactId>libphonenumber</artifactId>
+				<version>9.0.7</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.13.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>2.3.232</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -49,7 +63,6 @@
 		<dependency>
 			<groupId>com.googlecode.libphonenumber</groupId>
 			<artifactId>libphonenumber</artifactId>
-			<version>9.0.7</version>
 		</dependency>
 
 		<dependency>
@@ -57,6 +70,7 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -65,20 +79,54 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
 			<scope>test</scope>
-  		</dependency>
+		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.3.232</version>
 			<scope>test</scope>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.14.0</version>
+					<configuration>
+						<source>21</source>
+						<target>21</target>
+						<compilerArgs>
+							<arg>-Xlint:deprecation</arg>
+							<arg>-Werror</arg>
+						</compilerArgs>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>com.buschmais.jqassistant</groupId>
+					<artifactId>jqassistant-maven-plugin</artifactId>
+					<version>2.7.0</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.owasp</groupId>
+					<artifactId>dependency-check-maven</artifactId>
+					<version>12.1.3</version>
+					<configuration>
+						<failBuildOnCVSS>7</failBuildOnCVSS>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -88,35 +136,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.0</version> <!-- ou a versão mais atual -->
-				<configuration>
-					<source>21</source> <!-- ou sua versão do Java -->
-					<target>21</target>
-					<compilerArgs>
-					<arg>-Xlint:deprecation</arg>
-					<arg>-Werror</arg>
-					</compilerArgs>
-				</configuration>
-   		 </plugin>
-
-		 
-
-	<!-- <plugin>
-                <groupId>com.buschmais.jqassistant</groupId>
-                <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>2.7.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>scan</goal>
-                            <goal>analyze</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin> -->
+			</plugin>
 		</plugins>
 	</build>
-
 
 	<profiles>
 		<profile>
@@ -124,18 +146,17 @@
 			<build>
 				<plugins>
 					<plugin>
-                <groupId>com.buschmais.jqassistant</groupId>
-                <artifactId>jqassistant-maven-plugin</artifactId>
-                <version>2.7.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>scan</goal>
-                            <goal>analyze</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+						<groupId>com.buschmais.jqassistant</groupId>
+						<artifactId>jqassistant-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>scan</goal>
+									<goal>analyze</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -145,26 +166,18 @@
 			<build>
 				<plugins>
 					<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>12.1.3</version>
-				 <configuration>
-                  <failBuildOnCVSS>7</failBuildOnCVSS>
-              </configuration>
-				<executions>
-					<execution>
-					<goals>
-						<goal>check</goal>
-					</goals>
-					</execution>
-				</executions>
-    	</plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-
-
-	
-
 </project>
