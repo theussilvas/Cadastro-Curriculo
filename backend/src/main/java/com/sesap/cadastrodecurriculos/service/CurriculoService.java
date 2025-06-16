@@ -61,12 +61,18 @@ public class CurriculoService {
 
 
         Curriculo curriculo1 = new Curriculo();
-        curriculo1.setNome(curriculo.getNome());
-        curriculo1.setEmail(curriculo.getEmail());
-        curriculo1.setTelefone(curriculo.getTelefone());
-        curriculo1.setCargoDesejado(curriculo.getCargoDesejado());
-        curriculo1.setObservacoes(curriculo.getObservacoes());
-        Escolaridade escolaridade = Escolaridade.valueOf(curriculo.getEscolaridade());
+        curriculo1.setNome(curriculo.nome());
+        curriculo1.setEmail(curriculo.email());
+        curriculo1.setTelefone(curriculo.telefone());
+        curriculo1.setCargoDesejado(curriculo.cargoDesejado());
+
+        if(StringUtils.isBlank(curriculo.observacoes())){
+            curriculo1.setObservacoes("Sem observações adicionadas");
+        }else{
+            curriculo1.setObservacoes(curriculo.observacoes());
+        }
+
+        Escolaridade escolaridade = Escolaridade.valueOf(curriculo.escolaridade());
         curriculo1.setEscolaridade(escolaridade);
 
         curriculo1.setArquivoNome(arquivo.getOriginalFilename());
@@ -82,27 +88,23 @@ public class CurriculoService {
 
     private void validarCampos(CurriculoDTO curriculo) throws NumberParseException {
 
-        if (StringUtils.isBlank(curriculo.getNome())){
+        if (StringUtils.isBlank(curriculo.nome())){
             throw new NomeNaoEncontradoException();
         }
-        if (StringUtils.isBlank(curriculo.getEmail())){
+        if (StringUtils.isBlank(curriculo.email())){
             throw new EmailNaoEncontradoException();
         }
-        if(StringUtils.isBlank(curriculo.getTelefone())){
+        if(StringUtils.isBlank(curriculo.telefone())){
             throw new TelefoneNaoEncontradoException();
         }
-        if(StringUtils.isBlank(curriculo.getCargoDesejado())){
+        if(StringUtils.isBlank(curriculo.cargoDesejado())){
             throw  new CargoNaoEncontradoException();
         }
-        if(StringUtils.isBlank(curriculo.getEscolaridade())){
+        if(StringUtils.isBlank(curriculo.escolaridade())){
             throw new EscolaridadeNaoEncontradaException();
         }
 
-        if(StringUtils.isBlank(curriculo.getObservacoes())){
-            curriculo.setObservacoes("Sem observações adicionadas");
-        }
-
-        if(curriculo.getTelefone().length()!= 11){
+        if(curriculo.telefone().length()!= 11){
             throw new NumeroInvalidoException();
         }
 
@@ -110,7 +112,7 @@ public class CurriculoService {
         String codigoPais = "BR";
 
 
-        Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(curriculo.getTelefone(),codigoPais);
+        Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(curriculo.telefone(),codigoPais);
         if(!phoneNumberUtil.isValidNumberForRegion(phoneNumber,codigoPais)){
             throw new NumeroRegiaoInvalidaException();
         }
