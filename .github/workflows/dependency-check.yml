@@ -55,6 +55,20 @@ jobs:
           path: |
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/jqassistant/jqassistant-report.xml
 
+      - name: Rodar PMD codigo duplicado
+        working-directory: ./backend
+        run: |
+          mvn clean verify -Pduplicated-check
+
+      - name: Upload PMD Relatorio
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Upload PMD Relatorio
+          path: |
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/cpd.xml
+
+
       - name: Rodar OWASP Dependency Check
         working-directory: ./backend
         run: |
