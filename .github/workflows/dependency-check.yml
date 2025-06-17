@@ -42,19 +42,32 @@ jobs:
       - name: Instalar Maven
         run: sudo apt-get install -y maven
 
-      - name: Rodar CheckStyle Plugin
+      - name: Rodar JQASSISTANT CheckStyle Plugin
         working-directory: ./backend
         run: |
           mvn clean verify -Pjqassistant
 
-      - name: Upload CheckStyle Artifacts
+      - name: Upload JQASSISTANT CheckStyle Artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Upload JQASSISTANT CheckStyle Artifact
+          path: |
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/jqassistant/jqassistant-report.xml
+
+      - name: Rodar CheckStyle Plugin
+        working-directory: ./backend
+        run: |
+          mvn clean verify -P checkstyle
+
+      - name: Upload JQASSISTANT CheckStyle Artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@v4.6.2
         with:
           name: Upload CheckStyle Artifact
           path: |
-            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/jqassistant/jqassistant-report.xml
-
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/checkstyle-result.xml
+      
       - name: Rodar PMD codigo duplicado
         working-directory: ./backend
         run: |
