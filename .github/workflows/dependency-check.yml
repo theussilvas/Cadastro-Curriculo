@@ -60,7 +60,7 @@ jobs:
         run: |
           mvn clean verify -P checkstyle
 
-      - name: Upload JQASSISTANT CheckStyle Artifacts
+      - name: Upload CheckStyle Artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@v4.6.2
         with:

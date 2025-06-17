@@ -147,6 +147,12 @@
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>3.3.0</version>
 				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>3.3.0</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -224,6 +230,31 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+
+		<profile>
+			 <id>checkstyle</id>
+				<build>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-checkstyle-plugin</artifactId> 
+							<configuration>
+								<configLocation>google_checks.xml</configLocation>
+								<failsOnError>true</failsOnError>
+							</configuration>
+							<executions>
+								<execution>
+									<id>checkstyle</id>
+									<phase>validate</phase>
+									<goals>
+										<goal>check</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</build>
 		</profile>
 	</profiles>
 </project>
