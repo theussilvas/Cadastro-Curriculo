@@ -10,7 +10,7 @@ jobs:
   dependency-check:
     runs-on: ubuntu-latest
     env:
-      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      ## NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       NVD_HOST: ${{ secrets.NVD_HOST }}
 
     steps:
@@ -73,7 +73,6 @@ jobs:
         working-directory: ./backend
         run: |
           mvn clean verify -Pdependency-check \
-            -Dnvd.api.key=$NVD_API_KEY \
             -Dnvd.api.endpoint=$NVD_HOST \
             -Ddata.directory=./owasp-data
 
@@ -84,3 +83,5 @@ jobs:
           name: Upload OWASP Artifact
           path: |
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/dependency-check-report.html
+
+##  -Dnvd.api.key=$NVD_API_KEY \
