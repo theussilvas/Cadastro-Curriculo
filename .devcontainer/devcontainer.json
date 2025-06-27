@@ -5,7 +5,22 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"build": {
     "dockerfile": "DockerFile"
-  }
+},
+"customizations": {
+	"vscode": {
+		"extensions": [
+			"ms-vscode-remote.remote-containers",
+			"github.vscode-github-actions",
+			"Thomaz.preparing",
+			"vscjava.vscode-java-pack",
+			"vscjava.vscode-spring-initializr",
+			"eamodio.gitlens",
+			"ms-azuretools.vscode-docker",
+			"usernamehw.errorlens",
+			"vscjava.vscode-spring-boot-dashboard"
+		]
+	}
+}
 	
 
 	
