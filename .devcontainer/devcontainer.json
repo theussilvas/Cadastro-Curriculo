@@ -18,7 +18,8 @@
 			"ms-azuretools.vscode-docker",
 			"usernamehw.errorlens",
 			"vscjava.vscode-spring-boot-dashboard",
-			"vmware.vscode-boot-dev-pack"
+			"vmware.vscode-boot-dev-pack",
+			"Pleiades.java-extension-pack-jdk"
 		]
 	}
 }

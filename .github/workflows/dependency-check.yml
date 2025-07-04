@@ -42,6 +42,20 @@ jobs:
       - name: Instalar Maven
         run: sudo apt-get install -y maven
 
+      - name: Gerar Diagramas UML
+        working-directory: ./backend
+        run: |
+          mvn clean verify -Puml-doc
+
+      - name: Upload UML Artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4.6.2
+        with: 
+          name: Upload UML Artifacts
+          path: |
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/apidocs
+
+
       - name: Rodar CheckStyle Plugin
         working-directory: ./backend
         run: |
