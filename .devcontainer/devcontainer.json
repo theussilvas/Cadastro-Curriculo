@@ -17,7 +17,9 @@
 			"eamodio.gitlens",
 			"ms-azuretools.vscode-docker",
 			"usernamehw.errorlens",
-			"vscjava.vscode-spring-boot-dashboard"
+			"vscjava.vscode-spring-boot-dashboard",
+			"vmware.vscode-boot-dev-pack",
+			"Pleiades.java-extension-pack-jdk"
 		]
 	}
 }
