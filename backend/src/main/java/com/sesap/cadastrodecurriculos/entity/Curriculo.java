@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 
 
@@ -134,10 +135,10 @@ public class Curriculo {
     }
 
     public byte[] getArquivo() {
-        return arquivo;
+        return Arrays.copyOf(arquivo, arquivo.length);
     }
 
     public void setArquivo(byte[] arquivo) {
-        this.arquivo = arquivo;
+        this.arquivo = Arrays.copyOf(arquivo, arquivo.length);
     }
 }
