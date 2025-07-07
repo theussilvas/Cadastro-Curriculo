@@ -24,7 +24,10 @@ public class EmailService {
 
     public void enviarEmail(Curriculo curriculo, MultipartFile arquivo) {
         if (arquivo == null || arquivo.isEmpty()) {
-            logger.error("O arquivo do currículo está ausente ou vazio.");
+
+            if(logger.isInfoEnabled()){
+                logger.error("O arquivo do currículo está ausente ou vazio.");
+            }
             throw new IllegalArgumentException("Arquivo do currículo é obrigatório.");
         }
         
@@ -40,11 +43,16 @@ public class EmailService {
             helper.addAttachment(arquivo.getOriginalFilename(), arquivo);
             
             javaMailSender.send(message);
-            logger.info("E-mail enviado com sucesso para: {}", curriculo.getEmail());
-            System.out.println(curriculo.getDataHora());
+
+            if (logger.isInfoEnabled()) {
+                logger.info("E-mail enviado com sucesso para: {}", curriculo.getEmail());
+            }
+            
 
         } catch (MessagingException e) {
-            logger.error("Erro ao enviar e-mail para {}: {}", curriculo.getEmail(), e.getMessage());
+            if (logger.isErrorEnabled()) {
+                logger.error("Erro ao enviar e-mail para {}: {}", curriculo.getEmail(), e.getMessage());
+}
             throw new RuntimeException("Erro ao enviar o e-mail", e);
         }
     }
