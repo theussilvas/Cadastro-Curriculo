@@ -270,5 +270,30 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>code-smell-check</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<configuration>
+							<printFailingErrors>true</printFailingErrors>
+							<rulesets>
+								<ruleset>/category/java/bestpractices.xml</ruleset>
+							</rulesets>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
