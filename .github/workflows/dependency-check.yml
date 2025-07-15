@@ -111,4 +111,18 @@ jobs:
           path: |
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/dependency-check-report.html
 
+      - name: SpotBugs
+        if: ${{always()}}
+        working-directory: ./backend
+        run: |
+          mvn clean compile -Pspot-bugs-check -DskipTests com.github.spotbugs:spotbugs-maven-plugin:spotbugs
+
+      - name: Upload SpotBugs Artifacts
+        if: ${{always()}}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Upload SpotBugs Artifacts
+          path: |
+            /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/site/spotbugs.html
+
 ##  -Dnvd.api.key=$NVD_API_KEY \
