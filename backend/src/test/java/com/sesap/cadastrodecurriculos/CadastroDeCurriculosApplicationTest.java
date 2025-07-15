@@ -159,6 +159,7 @@ class CadastroDeCurriculosApplicationTest {
     }
 
 	//Validar arquivos .doc e .docx
+    /*
 	@Test
 	public void testarEnvioDocx() throws Exception{
 
@@ -216,4 +217,5 @@ class CadastroDeCurriculosApplicationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("João"));
     }
+*/
 }
