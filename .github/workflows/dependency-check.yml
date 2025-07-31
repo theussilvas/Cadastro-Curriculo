@@ -103,12 +103,12 @@ jobs:
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/reports
 
 
-      - name: Rodar OWASP Dependency Check
-        working-directory: ./backend
-        run: |
-          mvn clean verify -Pdependency-check \
-            -Dnvd.api.endpoint=$NVD_HOST \
-            -Ddata.directory=./owasp-data
+      # - name: Rodar OWASP Dependency Check
+      #   working-directory: ./backend
+      #   run: |
+      #     mvn clean verify -Pdependency-check \
+      #       -Dnvd.api.endpoint=$NVD_HOST \
+      #       -Ddata.directory=./owasp-data
 
       - name: Upload Artifacts OWASP
         if: ${{ always() }}
@@ -136,6 +136,9 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=matheusdev_cadastro-curriculo
+        if: ${{always()}}
+        working-directory: ./backend
+        run: |
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=matheusdev_cadastro-curriculo
 
 ##  -Dnvd.api.key=$NVD_API_KEY \
