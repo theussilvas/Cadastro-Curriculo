@@ -33,6 +33,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-owasp-
 
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -124,5 +131,11 @@ jobs:
           name: Upload SpotBugs Artifacts
           path: |
             /home/runner/work/Cadastro-Curriculo/Cadastro-Curriculo/backend/target/site/spotbugs.html
+
+
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=matheusdev_cadastro-curriculo
 
 ##  -Dnvd.api.key=$NVD_API_KEY \
