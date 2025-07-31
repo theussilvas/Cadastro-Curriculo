@@ -323,6 +323,9 @@
 						<groupId>com.github.spotbugs</groupId>
 						<artifactId>spotbugs-maven-plugin</artifactId>
 						<configuration>
+							<threshold>Low</threshold>
+							<includeTests>true</includeTests>
+                            <xmlOutput>true</xmlOutput>
 							<effort>Max</effort>
 							<failOnError>true</failOnError>
 							<excludeFilterFile>spotbugs-security-exclude.xml</excludeFilterFile>
@@ -338,7 +341,7 @@
 							<execution>
 								<phase>verify</phase> 
 								<goals>
-									<goal>spotbugs</goal>
+									<goal>check</goal>
 								</goals>
 							</execution>
 						</executions>

@@ -45,13 +45,15 @@ public class EmailService {
             javaMailSender.send(message);
 
             if (logger.isInfoEnabled()) {
-                logger.info("E-mail enviado com sucesso para: {}", curriculo.getEmail());
+                String safeEmail = curriculo.getEmail().replaceAll("[\\r\\n]", "_");
+                logger.info("E-mail enviado com sucesso para: {}", safeEmail);
             }
             
 
         } catch (MessagingException e) {
             if (logger.isErrorEnabled()) {
-                logger.error("Erro ao enviar e-mail para {}: {}", curriculo.getEmail(), e.getMessage());
+                String safeEmail = curriculo.getEmail().replaceAll("[\\r\\n]", "_");
+                logger.error("Erro ao enviar e-mail para {}: {}", safeEmail, e.getMessage());
 }
             throw new RuntimeException("Erro ao enviar o e-mail", e);
         }
