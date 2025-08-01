@@ -21,8 +21,12 @@ import java.io.IOException;
 @RequestMapping("/api/curriculos")
 public class CurriculoController {
 
-    @Autowired
-    private CurriculoService curriculoService;
+    
+    private final CurriculoService curriculoService;
+
+    public CurriculoController(CurriculoService curriculoService){
+        this.curriculoService = curriculoService;
+    }
 
     @PostMapping("/enviar")
     public ResponseEntity<CurriculoResponseDTO> submitCurriculo(@ModelAttribute CurriculoDTO curriculo, @RequestPart("arquivo") MultipartFile arquivo, HttpServletRequest request, Model model) throws IOException, NumberParseException {
