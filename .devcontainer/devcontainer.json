@@ -19,7 +19,8 @@
 			"usernamehw.errorlens",
 			"vscjava.vscode-spring-boot-dashboard",
 			"vmware.vscode-boot-dev-pack",
-			"Pleiades.java-extension-pack-jdk"
+			"Pleiades.java-extension-pack-jdk",
+			"PKief.material-icon-theme"
 		]
 	}
 }
