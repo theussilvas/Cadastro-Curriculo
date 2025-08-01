@@ -8,7 +8,6 @@ import com.sesap.cadastrodecurriculos.entity.Escolaridade;
 import com.sesap.cadastrodecurriculos.exceptions.*;
 import com.sesap.cadastrodecurriculos.repository.CurriculoRepository;
 import io.micrometer.common.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -21,11 +20,15 @@ import java.time.LocalDateTime;
 @Service
 public class CurriculoService {
 
-    @Autowired
-    private CurriculoRepository curriculoRepository;
+    
+    private final CurriculoRepository curriculoRepository;
+    private final EmailService emailService;
 
-    @Autowired
-    private EmailService emailService;
+
+    public CurriculoService(CurriculoRepository curriculoRepository, EmailService emailService){
+        this.curriculoRepository = curriculoRepository;
+        this.emailService = emailService;
+    }
 
     public Curriculo processarCurriculo(CurriculoDTO curriculo, MultipartFile arquivo, String ip) throws IOException, NumberParseException {
 
