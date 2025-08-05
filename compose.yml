@@ -16,7 +16,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: DockerfileDev
+      dockerfile: DockerFileProd.yml
     container_name: springboot
     ports:
       - "8080:8080"
